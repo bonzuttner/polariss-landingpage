@@ -12,5 +12,11 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
+    server: {
+      deps: {
+        inline: [/@exodus\/bytes/, /html-encoding-sniffer/],
+      },
+    },
   },
+
 });

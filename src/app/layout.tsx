@@ -9,6 +9,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
+  verification: {
+    google: "a0u6yNO2uFEYGVsLh0qOdXA91q24LS51Vv7iwJ-0BrE",
+  },
 };
 
 export default function RootLayout({

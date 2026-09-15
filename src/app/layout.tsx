@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 import { siteConfig } from "@/lib/site-config";
 
@@ -17,6 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning className="h-full antialiased" data-scroll-behavior="smooth">
+      {siteConfig.gtmId && <GoogleTagManager gtmId={siteConfig.gtmId} />}
       <body suppressHydrationWarning className="min-h-full flex flex-col">{children}</body>
     </html>
   );

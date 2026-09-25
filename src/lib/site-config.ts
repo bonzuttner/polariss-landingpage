@@ -15,6 +15,7 @@ export const siteConfig = {
     "https://thingsline.co.jp/index",
   ckEditorKey: process.env.NEXT_PUBLIC_CK_EDITOR_LICENCE_KEY ?? "GPL",
   gtmId: process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-W8PC23CG",
+  clarityProjectId: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? "",
 } as const;
 
 export const defaultKeywords = {

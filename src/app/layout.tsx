@@ -7,7 +7,11 @@ import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: siteConfig.name,
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: {
+    default: "POLARISS｜GPSで大切なバイク・車両を見守る",
+    template: "%s | POLARISS",
+  },
   description: siteConfig.description,
   verification: {
     google: "a0u6yNO2uFEYGVsLh0qOdXA91q24LS51Vv7iwJ-0BrE",

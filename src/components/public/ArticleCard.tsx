@@ -23,24 +23,26 @@ export function ArticleCard({ article, variant = "feature" }: ArticleCardProps) 
 
   return (
     <article className={`guide-card ${isFeature ? "feature" : "compact"}`}>
-      <Link
-        className="guide-visual"
-        href={`/articles/${article.slug}`}
-        aria-label={article.title}
-      >
+      <div className="guide-visual" aria-hidden="true">
         <img
           src={article.coverImageUrl || "/images/hero-bike.webp"}
-          alt={article.title}
+          alt=""
           style={{ width: "100%", height: "100%", maxHeight: "500px", objectFit: "cover" }}
         />
-      </Link>
+      </div>
       <div className="guide-card-body">
         <div className="guide-meta">
-          <span>{article.categoryName || "盗難対策"}</span>
+          <span>
+            {article.categories && article.categories.length > 0
+              ? article.categories.map((category) => category.name).join(" / ")
+              : (article.categoryName || "盗難対策")}
+          </span>
           {dateText && <time dateTime={String(article.publishedAt || article.updatedAt)}>{dateText}</time>}
         </div>
         <h3>
-          <Link href={`/articles/${article.slug}`}>{article.title}</Link>
+          <Link className="guide-title-link" href={`/articles/${article.slug}`}>
+            {article.title}
+          </Link>
         </h3>
         {isFeature && article.description && <p>{article.description}</p>}
       </div>

@@ -7,6 +7,9 @@
   --warm2: #F8F6F1;
   --ink: #171716;
   --ink2: #4E4E4A;
+  --ink-soft: #4e4e4a;
+  --muted: #77776f;
+  --smoke: #f4f4f2;
   --mist: #f1f1f1;
   --white: #ffffff;
   --blue: rgb(93 106 244);
@@ -648,8 +651,16 @@ body [class*="disc"] {
 }
 
 .article-hero {
-  background: var(--warm);
-  padding: clamp(44px, 6vw, 84px) 0
+  background: none;
+  padding: 0;
+}
+
+/* Scaled-down billboard: same 16/9 standard, capped so the whole photo
+   stays viewable on wide screens instead of spanning edge to edge. */
+.article-hero:has(img) {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
 }
 
 .article-hero h1 {
@@ -854,7 +865,6 @@ body {
   margin: 0;
   background: var(--white);
   color: var(--ink);
-  /*font-family: var(--font-body);*/
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1031,12 +1041,118 @@ dd {
 }
 
 .button-danger:hover {
-  background: var(--danger-dark);
+  background: var(--ink);
 }
 
 .button-wide {
   width: 100%;
 }
+
+/* Locked async button: keeps layout stable while the spinner runs. */
+button:has(> .btn-spinner) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-spinner {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  opacity: 0.75;
+  animation: btnSpin 0.8s linear infinite;
+}
+
+@keyframes btnSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- reusable confirmation dialog ---- */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgb(23 23 22 / 55%);
+  backdrop-filter: blur(3px);
+  animation: confirm-fade-in 180ms var(--ease);
+}
+
+.confirm-card {
+  width: min(440px, 100%);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  padding: 28px;
+  box-shadow: 0 24px 64px rgb(23 23 22 / 25%);
+  animation: confirm-pop-in 220ms var(--ease);
+}
+
+.confirm-kicker {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.confirm-title {
+  margin: 8px 0 0;
+  font-family: var(--font-jp);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.confirm-message {
+  margin: 12px 0 0;
+  color: var(--ink2);
+  font-size: 0.86rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+@keyframes confirm-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes confirm-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* NOTE: cover photo cropper styles (confirm-card--wide, crop-*) now live in
+   src/components/admin/CoverCropper/CoverCropper.css, co-located with the
+   component. Do not re-add them here. */
 
 .arrow-link {
   display: inline-flex;
@@ -1212,56 +1328,6 @@ dd {
   margin-top: 34px;
 }
 
-.hero {
-  position: relative;
-  min-height: 800px;
-  height: 100svh;
-  overflow: hidden;
-  background: var(--ink);
-  color: var(--white);
-}
-
-.hero-media,
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-}
-
-.hero-media img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(1.035);
-  transition:
-    opacity 1s ease,
-    transform 7s ease;
-}
-
-.hero-media img.is-active {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.hero-overlay {
-  background:
-    linear-gradient(90deg, rgb(4 10 20 / 86%) 0%, rgb(4 10 20 / 45%) 57%, rgb(4 10 20 / 16%) 100%),
-    linear-gradient(0deg, rgb(5 12 25 / 54%) 0%, transparent 42%);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: var(--header-height);
-}
-
-.hero h1,
 .section-heading h2,
 .product-heading h2 {
   font-family: var(--font-jp);
@@ -1271,113 +1337,11 @@ dd {
   line-height: 1.12;
 }
 
-.hero h1 em {
-  color: var(--blue-bright);
-  font-style: normal;
-}
-
-.hero-copy {
-  margin-top: 34px;
-  font-family: var(--font-jp);
-  font-size: clamp(0.95rem, 1.25vw, 1.12rem);
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  line-height: 1.9;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 46px;
-}
-
-.hero-rail {
-  position: absolute;
-  z-index: 3;
-  right: 34px;
-  bottom: 36px;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.hero-rail p {
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  writing-mode: vertical-rl;
-}
-
-.hero-dots {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.hero-dots button {
-  width: 34px;
-  height: 12px;
-  border: 0;
-  padding: 5px 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.hero-dots button span {
-  display: block;
-  width: 100%;
-  height: 2px;
-  background: rgb(255 255 255 / 34%);
-  transform-origin: left;
-  transition: background 180ms ease;
-}
-
-.hero-dots button.is-active span {
-  background: var(--blue-bright);
-}
-
-.metric-band,
-.quick-links,
-.card-grid,
 .chip-row,
 .keyword-row,
 .admin-stats,
 .admin-shortcuts {
   display: grid;
-}
-
-.metric-band {
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--line);
-  background: var(--white);
-}
-
-.metric {
-  display: flex;
-  min-height: 132px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid var(--line);
-  text-align: center;
-}
-
-.metric:last-child {
-  border-right: 0;
-}
-
-.metric strong {
-  font-size: clamp(1.35rem, 2vw, 2rem);
-  letter-spacing: -0.04em;
-}
-
-.metric span {
-  margin-top: 8px;
-  color: var(--muted);
-  font-family: var(--font-jp), serif;
-  font-size: 0.72rem;
-  font-weight: 500;
 }
 
 .quick-links {
@@ -1454,26 +1418,6 @@ dd {
   font-size: 1.25rem;
 }
 
-.problem-section,
-.product-section {
-  overflow: hidden;
-  color: var(--white);
-}
-
-.problem-section {
-  padding-block: 130px;
-  background: radial-gradient(circle at 12% 10%, rgb(77 141 255 / 21%), transparent 32%), var(--navy);
-}
-
-.product-section {
-  background: radial-gradient(circle at 90% 5%, rgb(77 141 255 / 18%), transparent 30%), var(--ink);
-}
-
-.problem-grid,
-.split-heading,
-.about-panel,
-.product-hero,
-.specs-panel,
 .article-layout,
 .editor-page-grid {
   display: grid;
@@ -1535,10 +1479,20 @@ dd {
   content: "";
 }
 
-.problem-image img,
-.article-hero img {
+.problem-image img {
   width: 100%;
-  object-fit: fill;
+  object-fit: contain;
+}
+
+/* Universal cover standard: billboard 16/9, filled with cover so photos
+   never stretch or letterbox. Cropping is decided in the admin crop step. */
+.article-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
 }
 
 .image-note {
@@ -1876,6 +1830,294 @@ dd {
   margin-block: 38px;
 }
 
+/* ---- admin article category chip picker ---- */
+.cat-picker-hint {
+  margin: 6px 0 0;
+  color: var(--ink3);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.cat-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  border-radius: 100px;
+  padding: 8px 8px 8px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  cursor: pointer;
+  animation: cat-chip-in 200ms var(--ease);
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease,
+    transform 120ms ease;
+}
+
+.cat-chip__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.cat-chip__icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* Unselected: black outline, black text, blends with the white page. */
+.cat-chip--available {
+  border: 1.5px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+}
+
+.cat-chip--available .cat-chip__icon {
+  border: 1.5px solid var(--ink);
+}
+
+.cat-chip--available:hover {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.cat-chip--available:hover .cat-chip__icon {
+  border-color: var(--white);
+}
+
+/* Selected: inverted colors. */
+.cat-chip--selected {
+  border: 1.5px solid var(--ink);
+  background: var(--ink);
+  color: var(--white);
+}
+
+.cat-chip--selected .cat-chip__icon {
+  border: 1.5px solid var(--white);
+}
+
+.cat-chip--selected:hover {
+  transform: translateY(-1px);
+  opacity: 0.88;
+}
+
+.cat-chip:active {
+  transform: scale(0.96);
+}
+
+.cat-chip:disabled {
+  cursor: default;
+}
+
+.cat-chip:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.cat-chip.is-leaving {
+  animation: cat-chip-out 160ms var(--ease) forwards;
+  pointer-events: none;
+}
+
+@keyframes cat-chip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cat-chip-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+.cat-selected-zone {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  border-top: 1px dashed var(--line);
+  padding-top: 12px;
+}
+
+.cat-chip-row--selected {
+  margin-top: 0;
+}
+
+.cat-selected-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink2);
+}
+
+.cat-empty {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* ---- keyword manager chips (ArticleEditor) ---- */
+.kw-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.field .kw-counter {
+  display: inline-grid;
+  place-items: center;
+  min-width: 52px;
+  height: 28px;
+  padding-inline: 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 100px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.field .kw-counter.is-full {
+  background: var(--ink);
+  color: var(--white);
+}
+
+.kw-note {
+  margin: 0;
+  color: var(--ink3);
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.kw-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.kw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--white);
+  padding: 6px 6px 6px 12px;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  animation: cat-chip-in 200ms var(--ease);
+  transition:
+    transform 180ms ease-out,
+    box-shadow 180ms ease-out;
+  will-change: transform;
+}
+
+.kw-chip__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.kw-chip__actions {
+  display: inline-flex;
+  flex: none;
+  gap: 4px;
+}
+
+.kw-chip__actions button {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.kw-chip__actions button:hover:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+.kw-chip__actions button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.kw-chip__actions button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.kw-chip[draggable="true"] {
+  cursor: grab;
+}
+
+.kw-chip-row.is-dragging,
+.kw-chip-row.is-dragging .kw-chip {
+  cursor: grabbing;
+}
+
+.kw-chip.is-dragging {
+  opacity: 0.4;
+}
+
 .pagination-row {
   flex-wrap: wrap;
   justify-content: center;
@@ -1904,7 +2146,7 @@ dd {
 }
 
 .article-hero img {
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 16 / 9;
 }
 
 .article-copy {
@@ -2820,8 +3062,10 @@ dd {
 
 .upload-preview {
   width: 100%;
-  max-height: 240px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: center;
 }
 
 .asset-path {
@@ -2864,10 +3108,49 @@ dd {
 
 .admin-shell {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 280px minmax(0, 1fr);
+  align-items: start;
+}
+
+/* General admin overflow containment: grid children default to
+   min-width auto, which lets one wide table/editor stretch the whole
+   dashboard past the viewport. These resets keep oversized content
+   inside its own region on every admin page. */
+.admin-main,
+.admin-sidebar,
+.admin-page-intro,
+.editor-panel,
+.editor-page-grid,
+.admin-table,
+.admin-stats,
+.admin-stat-card {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.admin-main {
+  overflow-x: clip;
+}
+
+.admin-table {
+  overflow-x: auto;
+}
+
+.admin-table-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.editor-shell,
+.editor-shell .ck.ck-editor {
+  max-width: 100%;
 }
 
 .admin-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow-y: auto;
   align-content: start;
   gap: 32px;
   border-right: 1px solid var(--line);
@@ -2966,7 +3249,7 @@ dd {
 }
 
 .editor-page-grid {
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 360px minmax(0, 1fr);
   gap: 20px;
 }
 
@@ -3042,7 +3325,7 @@ dd {
   }
 
   .admin-shell {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 220px minmax(0, 1fr);
   }
 }
 
@@ -3056,40 +3339,10 @@ dd {
     padding-block: 92px;
   }
 
-  .hero {
-    min-height: 720px;
-  }
-
-  .hero-content {
-    justify-content: flex-end;
-    padding-bottom: 110px;
-  }
-
-  .hero-rail p {
-    display: none;
-  }
-
-  .metric-band {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .quick-links {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .problem-grid,
-  .split-heading,
-  .about-panel,
-  .feature-row,
-  .feature-row.reverse,
-  .product-hero,
-  .specs-panel,
-  .footer-top,
   .admin-shell,
   .editor-page-grid,
-  .card-grid,
   .admin-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .feature-row.reverse .feature-image,
@@ -3103,6 +3356,9 @@ dd {
   }
 
   .admin-sidebar {
+    position: static;
+    height: auto;
+    overflow-y: visible;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
@@ -3111,32 +3367,6 @@ dd {
 @media (max-width: 560px) {
   .section {
     padding-block: 76px;
-  }
-
-  .hero {
-    min-height: 700px;
-  }
-
-  .hero h1 {
-    font-size: clamp(2.8rem, 13vw, 4.4rem);
-  }
-
-  .hero-actions {
-    width: 100%;
-  }
-
-  .hero-actions .button {
-    flex: 1;
-    min-width: 145px;
-  }
-
-  .quick-links {
-    grid-template-columns: 1fr;
-  }
-
-  .quick-card,
-  .quick-card:last-child {
-    border-right: 1px solid var(--line);
   }
 
   .faq-item summary {

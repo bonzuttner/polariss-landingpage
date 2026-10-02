@@ -891,7 +891,7 @@ dd {
 }
 
 .page-shell {
-  padding-top: calc(var(--header-height) + 72px);
+  padding-top: calc(var(--header-height) + 0px);
   min-height: 100dvh;
   background: linear-gradient(180deg, var(--smoke) 0%, var(--white) 26%);
 }

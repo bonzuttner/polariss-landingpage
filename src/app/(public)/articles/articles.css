@@ -140,7 +140,7 @@
 
 .guide-card:hover {
   border-color: #cbc8bf;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .guide-visual {
@@ -169,7 +169,7 @@
   max-height: 500px;
   object-fit: cover;
   object-position: center;
-  transition: transform .55s cubic-bezier(.22,.72,.28,1);
+  transition: transform .55s cubic-bezier(.22, .72, .28, 1);
 }
 
 .guide-card:hover .guide-visual img {
@@ -267,7 +267,7 @@
   box-sizing: border-box;
 }
 
-.theme-row div + div {
+.theme-row div+div {
   border-left: 1px solid var(--line);
 }
 
@@ -381,7 +381,7 @@
     grid-template-columns: 1fr;
   }
 
-  .theme-row div + div {
+  .theme-row div+div {
     border-left: 0;
     border-top: 1px solid var(--line);
   }
@@ -392,7 +392,7 @@
   display: grid;
   gap: 38px;
   width: 100%;
-  max-width: 960px;
+  max-width: 1000px;
   margin-inline: auto;
 }
 

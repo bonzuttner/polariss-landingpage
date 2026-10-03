@@ -1681,7 +1681,7 @@ button:has(> .btn-spinner) {
 .article-layout {
   gap: 38px;
   width: 100%;
-  max-width: 960px;
+  max-width: 1000px;
   margin-inline: auto;
 }
 

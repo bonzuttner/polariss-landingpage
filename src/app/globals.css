@@ -645,7 +645,7 @@ body [class*="disc"] {
    stays viewable on wide screens instead of spanning edge to edge. */
 .article-hero:has(img) {
   width: 100%;
-  max-width: 960px;
+  max-width: 1000px;
   margin-inline: auto;
 }
 

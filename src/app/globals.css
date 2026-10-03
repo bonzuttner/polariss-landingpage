@@ -1680,6 +1680,9 @@ button:has(> .btn-spinner) {
 
 .article-layout {
   gap: 38px;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
 }
 
 .article-hero img {
@@ -1689,10 +1692,12 @@ button:has(> .btn-spinner) {
 .article-copy {
   display: grid;
   gap: 20px;
+  width: 100%;
 }
 
 .article-body {
-  max-width: 900px;
+  width: 100%;
+  max-width: 100%;
   font-size: 0.96rem;
 }
 

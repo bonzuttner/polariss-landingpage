@@ -386,3 +386,38 @@
     border-top: 1px solid var(--line);
   }
 }
+
+/* Article Details Page Layout */
+.article-layout {
+  display: grid;
+  gap: 38px;
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.article-hero {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+}
+
+.article-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+}
+
+.article-copy {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+.article-body {
+  width: 100%;
+  max-width: 100%;
+}

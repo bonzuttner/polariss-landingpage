@@ -90,7 +90,11 @@ export function SiteHeader() {
           </nav>
 
           <div className="hdr-cta">
-            <a href={siteConfig.buyNowUrl} className="btn btn-fill">
+            <a
+              href={siteConfig.buyNowUrl}
+              className="btn btn-fill"
+              data-purchase-cta="header"
+            >
               購入
             </a>
             <button

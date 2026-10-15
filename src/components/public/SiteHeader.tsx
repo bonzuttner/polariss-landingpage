@@ -14,7 +14,7 @@ const navItems = [
   { href: "/price", label: "料金" },
   { href: "/voices", label: "利用者の声" },
   { href: "/articles", label: "盗難対策ガイド" },
-  { href: "/faq", label: "FAQ" },
+  { href: "/faq", label: "よくあるご質問" },
   { href: "/contact", label: "お問い合わせ" },
 ];
 

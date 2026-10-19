@@ -43,6 +43,7 @@ export function SiteFooter() {
             <div className="ft-col">
               <b>サービス案内</b>
               <Link href="/about">POLARISSとは</Link>
+              <Link href="/business">法人のお客様</Link>
               <Link href="/howto">使い方</Link>
               <Link href="/compare">比較する</Link>
               <Link href="/price">料金プラン</Link>

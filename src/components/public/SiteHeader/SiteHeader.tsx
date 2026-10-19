@@ -16,12 +16,14 @@ const navItems = [
   { href: "/articles", label: "盗難対策ガイド" },
   { href: "/faq", label: "よくあるご質問" },
   { href: "/contact", label: "お問い合わせ" },
+  { href: "/business", label: "法人のお客様" },
 ];
 
 const spriteHref = "/sprite.svg#pl-logo"; // fallback if external sprite not loaded, we inline below
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const isBusiness = pathname === "/business";
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -91,18 +93,19 @@ export function SiteHeader() {
 
           <div className="hdr-cta">
             <a
-              href={siteConfig.buyNowUrl}
+              href={isBusiness ? "/contact?type=business" : siteConfig.buyNowUrl}
               className="btn btn-fill"
-              data-purchase-cta="header"
+              data-purchase-cta={isBusiness ? undefined : "header"}
+              data-business-cta={isBusiness ? "header" : undefined}
             >
-              購入
+              {isBusiness ? "導入のご相談" : "購入"}
             </a>
             <button
               className={`burger ${menuOpen ? "open" : ""}`}
               type="button"
               aria-expanded={menuOpen}
               aria-controls="mnav"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span />
@@ -116,8 +119,8 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <a href={siteConfig.buyNowUrl} onClick={closeMenu}>
-            購入
+          <a href={isBusiness ? "/contact?type=business" : siteConfig.buyNowUrl} onClick={closeMenu}>
+            {isBusiness ? "導入のご相談" : "購入"}
           </a>
         </div>
       </header>

@@ -9,6 +9,12 @@ export const metadata = buildMetadata({
   path: "/contact",
 });
 
-export default function ContactPage() {
-  return <ContactClient />;
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type } = await searchParams;
+  const businessInquiry = type === "business";
+  return <ContactClient key={businessInquiry ? "business" : "general"} businessInquiry={businessInquiry} />;
 }

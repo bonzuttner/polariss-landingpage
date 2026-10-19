@@ -33,13 +33,13 @@ function emailIsValid(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export function ContactClient() {
+export function ContactClient({ businessInquiry = false }: { businessInquiry?: boolean }) {
   const [fields, setFields] = useState<FormState>({
-    inquiryType: "",
+    inquiryType: businessInquiry ? "business" : "",
     name: "",
     email: "",
     tel: "",
-    message: "",
+    message: businessInquiry ? "【法人向け導入のご相談】\n会社名：\nご担当部署：\n使用する車両：\n導入予定台数：\n主な保管場所：\nご相談内容：" : "",
     privacyConsent: false,
   });
 
@@ -243,12 +243,12 @@ export function ContactClient() {
             <Link href="/">ホーム</Link>／<span>お問い合わせ</span>
           </div>
           <p className="kicker">お問い合わせ</p>
-          <h1>お問い合わせ</h1>
+          <h1>{businessInquiry ? "法人導入のご相談" : "お問い合わせ"}</h1>
           <p style={{ fontSize: "1.2rem", fontWeight: 700, marginTop: 8, color: "#4E4E4A" }}>
-            POLARISSについてのお問い合わせ
+            {businessInquiry ? "事業で使う車両への導入について" : "POLARISSについてのお問い合わせ"}
           </p>
           <p>
-            購入前のご相談、取り付けやご利用方法についてなど、POLARISSに関するお問い合わせを受け付けています。
+            {businessInquiry ? "車種・台数・利用環境や、ご希望の導入時期をお知らせください。費用・契約条件についてのご相談も受け付けています。" : "購入前のご相談、取り付けやご利用方法についてなど、POLARISSに関するお問い合わせを受け付けています。"}
           </p>
         </div>
       </section>

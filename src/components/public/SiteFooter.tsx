@@ -51,6 +51,7 @@ export function SiteFooter() {
             <div className="ft-col">
               <b>読みもの・サポート</b>
               <Link href="/voices">利用者の声</Link>
+              <Link href="/videos">動画でわかるPOLARISS</Link>
               <Link href="/articles">盗難対策ガイド</Link>
               <Link href="/faq">よくあるご質問</Link>
             </div>

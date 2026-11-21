@@ -10,6 +10,7 @@ import "../../landing/styles/header.css";
 const navItems = [
   { href: "/about", label: "POLARISSとは" },
   { href: "/howto", label: "使い方" },
+  { href: "/videos", label: "動画" },
   { href: "/compare", label: "比較する" },
   { href: "/price", label: "料金" },
   { href: "/voices", label: "利用者の声" },

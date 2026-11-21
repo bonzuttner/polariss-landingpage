@@ -1,0 +1,10 @@
+.video-editor { display: grid; gap: 22px; max-width: 1000px; }
+.video-editor .field { min-width: 0; }
+.video-editor small { color: #5c626b; line-height: 1.8; }
+.video-editor-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.video-editor-check { display: flex; gap: 10px; align-items: center; line-height: 1.7; }
+.video-editor-check input { width: 20px; height: 20px; flex: none; }
+.admin-video-list { display: grid; }
+.admin-video-row { display: grid; grid-template-columns: 2fr 1fr 1fr 100px; gap: 16px; padding: 22px 12px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.admin-video-row:hover { background: #f7f8fa; }
+@media (max-width: 700px) { .video-editor-columns, .admin-video-row { grid-template-columns: 1fr; gap: 12px; } }

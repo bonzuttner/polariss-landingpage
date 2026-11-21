@@ -17,13 +17,17 @@ import { FinalSection } from "@/components/landing/FinalSection";
 import { BuybarSection } from "@/components/landing/BuybarSection";
 import { useLandingAnimations } from "@/components/landing/useLandingAnimations";
 import type { ArticleListItem, FaqItem } from "@/lib/types";
+import { HomeVideos } from "@/components/videos/HomeVideos";
+import type { Video } from "@/lib/videos/types";
 
 export function HomePage({
   latestArticles,
   latestFaqs,
+  videos = [],
 }: {
   latestArticles: ArticleListItem[];
   latestFaqs: FaqItem[];
+  videos?: Video[];
 }) {
   useLandingAnimations();
 
@@ -32,6 +36,7 @@ export function HomePage({
       <HeroSection />
       <div id="heroEnd" aria-hidden="true" />
       <StripSection />
+      <HomeVideos videos={videos} />
       <StorySection />
       <DataSection />
       {/* Dynamic articles - the ONLY addition replacing static guide-data.js */}

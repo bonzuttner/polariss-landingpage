@@ -3,6 +3,7 @@ import { defaultKeywords } from "@/lib/site-config";
 import { buildMetadata } from "@/lib/seo";
 import { getLatestArticles, getPublishedFaqs } from "@/server/content-service";
 import { getOrganizationJsonLd, getProductJsonLd } from "@/lib/json-ld";
+import { getHomeVideos } from "@/server/video-service";
 
 export const metadata = buildMetadata({
   title: "POLARISS｜GPSで大切なバイク・車両を見守る",
@@ -13,9 +14,10 @@ export const metadata = buildMetadata({
 });
 
 export default async function LandingPage() {
-  const [latestArticles, latestFaqs] = await Promise.all([
+  const [latestArticles, latestFaqs, videos] = await Promise.all([
     getLatestArticles(3),
     getPublishedFaqs(3),
+    getHomeVideos(),
   ]);
 
   const orgJsonLd = getOrganizationJsonLd();
@@ -31,7 +33,7 @@ export default async function LandingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
-      <HomePage latestArticles={latestArticles} latestFaqs={latestFaqs} />
+      <HomePage latestArticles={latestArticles} latestFaqs={latestFaqs} videos={videos} />
     </>
   );
 }
